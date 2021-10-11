@@ -1,0 +1,27 @@
+
+[package]
+name = "chainlink-solano-demo"
+version = "0.0.1"
+description = "Chainlink Price Feeds Consumer program written in Rust"
+authors = []
+repository = "https://github.com/smartcontractkit/chainlink-solana-demo"
+license = "Apache-2.0"
+edition = "2018"
+
+[features]
+no-entrypoint = []
+
+[dependencies]
+borsh = "0.9.1"
+borsh-derive = "0.9.1"
+solana-program = "=1.7.4"
+# features = ["no-entrypoint"]
+chainlink = { git = "https://github.com/smartcontractkit/chainlink-solana", package = "chainlink-solana", features = ["no-entrypoint"] }
+
+[dev-dependencies]
+solana-program-test = "=1.7.4"
+solana-sdk = "=1.7.4"
+
+[lib]
+name = "chainlink_solana_demo"
+crate-type = ["cdylib", "lib"]
