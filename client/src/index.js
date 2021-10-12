@@ -476,7 +476,10 @@ app.get('/getWallet',async (req,res)=>{
     res.status(400).send('Error Getting Wallet from DB');
   })
 })
-
+//TRIAL
+const TokenRoute = require("./routes/Token");
+app.use('/token',TokenRoute);
+// 
 app.listen('8000', function () {
   console.log('Started');
 });
