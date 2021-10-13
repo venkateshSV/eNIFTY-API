@@ -78,6 +78,51 @@ async function mutate_Token(tokenId,props)
     return res;
 }
 
+async function transfer_Token(fromPlayerId,toPlayerId,tokenId,amount)
+{
+    const url = base_url + 'token/transfer';
+    const headers = {
+      'x-api-key': key,
+      'Content-Type': 'application/json;charset=UTF-8'
+    };
+    
+    let data = {
+        fromPlayerId: fromPlayerId,
+        toPlayerId:   toPlayerId,
+        tokenObjects: [{tokenId: tokenId, amount: amount}]
+    };
+    
+    const res = axios({method: 'post', url, headers, data})
+    return res;  
+}
+async function get_Token(tokenIds)
+{
+    const url = base_url + 'token/get';
+    const headers = {
+      'x-api-key': key,
+      'Content-Type': 'application/json;charset=UTF-8'
+    };
+    
+    params = {"tokenIds": tokenIds};
+    
+    const res = axios({method: 'get', url, headers, params})
+    return res;
+}
+
+async function getall_Token(templateId)
+{
+    const url = base_url + 'token/get-all';
+    const headers = {
+      'x-api-key': key,
+      'Content-Type': 'application/json;charset=UTF-8'
+    };
+    
+    params = {"templateId": templateId};
+    
+    const res = axios({method: 'get', url, headers, params})
+    return res;
+}
+
 Router.get('/',(req,res)=>{
     res.send('Hello!')
 })
@@ -119,6 +164,36 @@ Router.put('/mutate',async(req,res)=>{
     }catch(err){
         console.log(err);
         res.status(500).send('Error mutating token');
+    }
+})
+Router.post('/transfer',async(req,res)=>{
+    try{
+        const transferToken= await transfer_Token(req.body.fromPlayerId,req.body.toPlayerId,req.body.tokenId,req.body.amount)
+        console.log(transferToken)
+        res.status(200).json(transferToken.data)
+    }catch(err){
+        console.log(err);
+        res.status(500).send('Error transferring token');
+    }
+})
+Router.get('/get',async (req,res)=>{
+    try{
+        const getToken = await get_Token(req.body.tokenIds)
+        console.log(getToken)
+        res.send(getToken.data)
+    }catch(err){
+        console.log(err);
+        res.status(500).send('Error getting token properties');
+    }
+})
+Router.get('/get-all',async (req,res)=>{
+    try{
+        const getallToken = await getall_Token(req.body.templateId)
+        console.log(getallToken)
+        res.send(getallToken.data)
+    }catch(err){
+        console.log(err);
+        res.status(500).send('Error retrieving token information');
     }
 })
 module.exports=Router;
