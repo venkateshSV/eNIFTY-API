@@ -477,6 +477,9 @@ app.get('/getWallet',async (req,res)=>{
   })
 })
 //TRIAL
+const UserRoute = require("./routes/User");
+app.use('/user',UserRoute);
+
 const TokenRoute = require("./routes/Token");
 app.use('/token',TokenRoute);
 
