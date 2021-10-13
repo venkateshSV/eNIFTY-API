@@ -479,8 +479,11 @@ app.get('/getWallet',async (req,res)=>{
 //TRIAL
 const TokenRoute = require("./routes/Token");
 app.use('/token',TokenRoute);
+
+const TemplateRoute = require("./routes/Template");
+app.use('/template',TemplateRoute);
 // 
-app.listen('8000', function () {
+app.listen('8080', function () {
   console.log('Started');
 });
 
