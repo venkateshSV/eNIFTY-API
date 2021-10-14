@@ -476,7 +476,7 @@ app.get('/getWallet',async (req,res)=>{
     res.status(400).send('Error Getting Wallet from DB');
   })
 })
-//TRIAL
+// ACCESSING ROUTES
 const UserRoute = require("./routes/User");
 app.use('/user',UserRoute);
 
@@ -485,6 +485,10 @@ app.use('/token',TokenRoute);
 
 const TemplateRoute = require("./routes/Template");
 app.use('/template',TemplateRoute);
+
+const TradeRoute = require("./routes/Trade");
+app.use('/trade',TradeRoute);
+
 // 
 app.listen('8080', function () {
   console.log('Started');
