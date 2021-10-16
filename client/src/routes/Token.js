@@ -78,7 +78,7 @@ async function mutate_Token(tokenId,props)
     return res;
 }
 
-async function transfer_Token(fromPlayerId,toPlayerId,tokenId,amount)
+async function transfer_Token(fromPlayerId,toPlayerId,tokenObjects)
 {
     const url = base_url + 'token/transfer';
     const headers = {
@@ -89,7 +89,7 @@ async function transfer_Token(fromPlayerId,toPlayerId,tokenId,amount)
     let data = {
         fromPlayerId: fromPlayerId,
         toPlayerId:   toPlayerId,
-        tokenObjects: [{tokenId: tokenId, amount: amount}]
+        tokenObjects: tokenObjects
     };
     
     const res = axios({method: 'post', url, headers, data})
@@ -168,7 +168,7 @@ Router.put('/mutate',async(req,res)=>{
 })
 Router.post('/transfer',async(req,res)=>{
     try{
-        const transferToken= await transfer_Token(req.body.fromPlayerId,req.body.toPlayerId,req.body.tokenId,req.body.amount)
+        const transferToken= await transfer_Token(req.body.fromPlayerId,req.body.toPlayerId,req.body.tokenObjects)
         console.log(transferToken)
         res.status(200).json(transferToken.data)
     }catch(err){

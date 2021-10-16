@@ -358,7 +358,7 @@ async function sendMoneyFromAccount(fromWallet,toWallet,amount)
 
 const base_url = 'https://opzvmjx033.execute-api.us-east-1.amazonaws.com/v1/'
 
-async function createPlayer(email,name,id)
+async function createPlayer(email,name,password,id)
 {
   const url = base_url + 'player/create';
   const headers = {  
@@ -369,6 +369,7 @@ async function createPlayer(email,name,id)
     uniqueId: email,
     userData: {
       'name': name,
+      'password':password,
       'walletId': id
     }   
   };
@@ -376,14 +377,14 @@ async function createPlayer(email,name,id)
   return res;
 }
 
-async function getPlayer(_playerId)
+async function getPlayer(_playerId,_password)
 {
   const url = base_url + 'player/get';
   const headers = {  
     'x-api-key': key,  
     'Content-Type': 'application/json;charset=UTF-8'
   };
-  let params = {playerId: _playerId};
+  let params = {playerId: _playerId, password: _password};
   const res = await axios({method: 'get',url,headers,params})
   return res;
 }
@@ -435,7 +436,7 @@ app.post('/signUp',async (req,res)=>{
         }
     });
     try{
-      const player = await createPlayer(req.body.email,req.body.name,new_item._id)
+      const player = await createPlayer(req.body.email,req.body.name,req.body.password,new_item._id)
       console.log(player)
       res.status(200).json(player.data)
     }catch(err){
@@ -450,7 +451,7 @@ app.post('/signUp',async (req,res)=>{
 
 app.get('/login',async (req,res)=>{
   try{
-    const player = await getPlayer(req.body.playerId)
+    const player = await getPlayer(req.body.playerId,req.body._password)
     console.log(player)
     res.send(player.data)
   }catch(err){
